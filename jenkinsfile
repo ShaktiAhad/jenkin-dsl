@@ -6,8 +6,8 @@ pipeline {
             steps {
                 echo 'Hello World'
                 script{
-                    def d = load "${WORKSPACE}/folder.groovy"
-                    d()
+                    def datas = readYaml File: "projects.yaml"
+                    println (datas)
                 }
             }
         }

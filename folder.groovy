@@ -10,8 +10,8 @@ def call(content){
         for (each_project in projects){
             projectFolder = "${tech}/${each_project}"
             folder("${projectFolder}")
-            def f = load ("${workspace}/pipelineCreator.groovy")
-            f(workspace, each_project)
+            // def f = load ("${workspace}/pipelineCreator.groovy")
+            // f(workspace, each_project)
         }
     }
 }

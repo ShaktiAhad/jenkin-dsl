@@ -7,7 +7,12 @@ pipeline {
                 echo 'Hello World'
                 script{
                     def datas = readYaml file: "${WORKSPACE}/projects.yaml"
-                    println (datas)
+                    datas.each{tech, projects ->
+                        println(tech)
+                        for (each_project in projects){
+                            println(each_project)
+                        }
+                    }
                 }
             }
         }

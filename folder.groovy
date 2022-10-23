@@ -1,11 +1,11 @@
-@Grab('org.yaml:snakeyaml:1.33')
-import org.yaml.snakeyaml.Yaml
+// @Grab('org.yaml:snakeyaml:1.33')
+// import org.yaml.snakeyaml.Yaml
 
-workspace = "${WORKSPACE}"
-def contentt = new Yaml().load(("${workspace}/projects.yaml" as File).text)
+// workspace = "${WORKSPACE}"
+// def contentt = new Yaml().load(("${workspace}/projects.yaml" as File).text)
 
-def call(){
-    contentt.each{tech, projects ->
+def call(content){
+    content.each{tech, projects ->
         folder("${tech}")
         for (each_project in projects){
             projectFolder = "${tech}/${each_project}"

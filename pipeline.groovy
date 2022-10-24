@@ -2,9 +2,9 @@ pipelines.each{key, value ->
     value.each{pipeline_name, pipeline_val -> 
         if (pipeline_name == "common"){
             gitInfo = [:]
-            jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", '-')]
-            gitInfo.gitUrl = pipeline_val.get("gitUrl", '-')
-            gitInfo.branch = pipeline_val.get("branch", '-')
+            jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
+            gitInfo.gitUrl = pipeline_val.get("gitUrl", 'empty')
+            gitInfo.branch = pipeline_val.get("branch", 'empty')
             gitInfo.cred = "personal-git-cred"
 
         }

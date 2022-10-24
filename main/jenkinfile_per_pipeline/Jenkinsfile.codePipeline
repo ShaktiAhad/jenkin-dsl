@@ -1,12 +1,9 @@
 @Library('my-aws-library') _
 
 node('master'){
-    def workspace = "${WORKSPACE}"
     stage('workspace'){
-        def get_project = workspace.split('/')[-2]
-        def pipelines = readYaml file: "projects/${get_project}/config.yaml"
-        def pipeline_data = pipelines["conf"]
-        println (pipeline_data)
+        println (PARAMS_STR.common.get("region", "-")
+        println (PARAMS_STR.awsCodePipeline.get("codeCommitRepo", "-")
     }
 
     // stage('check release branch on codeCommit'){

@@ -6,11 +6,16 @@ pipeline {
             steps {
                 echo 'Hello World'
                 script{
-                    def datas = readYaml file: "${WORKSPACE}/projects.yaml"
-                    def f = load "${WORKSPACE}/s.groovy"
-                    f("folder.groovy", datas)
-                    // def f = "folder.groovy"
-                    // jobDsl targets: f, additionalParameters: [folders: datas]
+                    def projects = readYaml file: "${WORKSPACE}/projects.yaml"
+                    jobDsl targets: "folder.groovy", additionalParameters: [folders: projects]
+                    projects.each{tech, projects ->
+                        for (each_project in projects){
+                            def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
+                            def pipeline_data = pipelines["conf"]
+                            jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project]
+                        }
+                    }
+
                 }
             }
         }

@@ -1,12 +1,11 @@
 @Library('my-aws-library') _
+import groovy.json.JsonSlurperClassic
 
 node('master'){
     stage('workspace'){
-        param = env.PARAMS_STR
-        println param
-        println param.getClass()
-        // println (param.common)
-        // println (param.awsCodePipeline)
+        def params = new JsonSlurperClassic().parseText(env.PARAMS_STR)
+        println (params.common.get("region", "empty"))
+        println (params.awsCodePipeline.get("codeCommitRepo", "empty"))
     }
 
     // stage('check release branch on codeCommit'){

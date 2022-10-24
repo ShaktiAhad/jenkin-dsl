@@ -4,7 +4,7 @@
 // workspace = "${WORKSPACE}"
 // def contentt = new Yaml().load(("${workspace}/projects.yaml" as File).text)
 
-content.each{tech, projects ->
+folders.each{tech, projects ->
     folder("${tech}")
     for (each_project in projects){
         projectFolder = "${tech}/${each_project}"

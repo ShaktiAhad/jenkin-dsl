@@ -1,24 +1,25 @@
-pipeline {
-    agent any
+node('master'){
+    stage("clone repository"){
+        checkout scm: [
+            $class: 'GitSCM', 
+            userRemoteConfigs: [
+                [url: 'git@github.com:ShaktiAhad/Automation.git', credentialsId: 'personal-git-cred']], 
+                branches: [[name: 'refs/heads/main']]
+        ], 
+        poll: false
+    }
 
-    stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-                script{
-                    def projects = readYaml file: "${WORKSPACE}/projects.yaml"
-                    jobDsl targets: "folder.groovy", additionalParameters: [folders: projects]
+    stage("create job folder and pipeline"){
+        def projects = readYaml file: "${WORKSPACE}/projects.yaml"
+        jobDsl targets: "folder.groovy", additionalParameters: [folders: projects]
 
-                    projects.each{tech, projcts ->
-                        for (each_project in projcts){
-                            def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
-                            def pipeline_data = pipelines["conf"]
-                            if (tech == "aws"){
-                                get_param = load "main/lib/awsCodePipeline.groovy"
-                                jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: get_param]
-                            }
-                        }
-                    }
+        projects.each{tech, projcts ->
+            for (each_project in projcts){
+                def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
+                def pipeline_data = pipelines["conf"]
+                if (tech == "aws"){
+                    get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
+                    jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: get_param]
                 }
             }
         }

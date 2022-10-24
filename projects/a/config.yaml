@@ -15,14 +15,6 @@ conf:
           releaseVersion:
             defaultValue: 'x.x.x'
             description: 'release version'
-          releaseVersion2:
-            defaultValue: 'x.x.x2'
-            description: 'release version2'
-
-        choice:
-          event_rule_status:
-            description: 'Change event rule status'
-            choices: ['enable', 'disable']
 
     awsEventRule:
       eventRule: 'test'

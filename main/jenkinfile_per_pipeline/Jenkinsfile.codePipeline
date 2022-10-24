@@ -3,8 +3,8 @@
 node('master'){
     stage('workspace'){
         param = env.PARAMS_STR
-        println (param.common.get("region", "-"))
-        println (param.awsCodePipeline.get("codeCommitRepo", "-"))
+        println (param.common.)
+        println (param.awsCodePipeline)
     }
 
     // stage('check release branch on codeCommit'){

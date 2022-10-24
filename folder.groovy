@@ -4,19 +4,12 @@
 // workspace = "${WORKSPACE}"
 // def contentt = new Yaml().load(("${workspace}/projects.yaml" as File).text)
 
-def d(content){
-    println("ddd")
-    println(content)
-    println("ddd")
-    contentt = content
+content.each{tech, projects ->
+    folder("${tech}")
+    for (each_project in projects){
+        projectFolder = "${tech}/${each_project}"
+        folder("${projectFolder}")
+        // def f = load ("${workspace}/pipelineCreator.groovy")
+        // f(workspace, each_project)
+    }
 }
-println contentt
-// contentt.each{tech, projects ->
-//     folder("${tech}")
-//     for (each_project in projects){
-//         projectFolder = "${tech}/${each_project}"
-//         folder("${projectFolder}")
-//         // def f = load ("${workspace}/pipelineCreator.groovy")
-//         // f(workspace, each_project)
-//     }
-// }

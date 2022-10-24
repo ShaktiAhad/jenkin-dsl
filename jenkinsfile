@@ -8,7 +8,7 @@ pipeline {
                 script{
                     def datas = readYaml file: "${WORKSPACE}/projects.yaml"
                     def f = load "${WORKSPACE}/s.groovy"
-                    f.folder("folder.groovy", datas)
+                    f("folder.groovy", datas)
                     // def f = "folder.groovy"
                     // jobDsl targets: f, additionalParameters: [folders: datas]
                 }

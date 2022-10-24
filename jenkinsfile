@@ -8,8 +8,8 @@ pipeline {
                 script{
                     def projects = readYaml file: "${WORKSPACE}/projects.yaml"
                     jobDsl targets: "folder.groovy", additionalParameters: [folders: projects]
-                    projects.each{tech, projects ->
-                        for (each_project in projects){
+                    projects.each{tech, projcts ->
+                        for (each_project in projcts){
                             def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
                             def pipeline_data = pipelines["conf"]
                             jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project]

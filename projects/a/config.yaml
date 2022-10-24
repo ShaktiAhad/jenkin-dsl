@@ -14,7 +14,7 @@ conf:
         string: 
           releaseVersion:
             defaultValue: 'x.x.x'
-            description: 'release version's
+            description: 'release version'
           releaseVersion2:
             defaultValue: 'x.x.x2'
             description: 'release version2'

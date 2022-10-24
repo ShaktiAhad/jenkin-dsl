@@ -1,9 +1,9 @@
 conf:
   aws:
     common:
-      gitUrl: 'https://github.com/ShaktiAhad/Automation.git'
+      gitUrl: 'https://github.com/ShaktiAhad/jenkin-dsl.git'
       branch: 'main'
-      jenkinfilePath: 'aws-poc/jenkinfile/Jenkinsfile.main'
+      jenkinfilePath: 'main/jenkinfile_per_pipeline/Jenkinsfile.codePipeline'
       
     awsCodePipeline:
       codeCommitRepo: 'shakti-test-repo'

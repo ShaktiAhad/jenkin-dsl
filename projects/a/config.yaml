@@ -15,17 +15,25 @@ conf:
           releaseVersion:
             defaultValue: 'x.x.x'
             description: 'release version'
-            trim: 'true'
 
           releaseVersion2:
             defaultValue: 'x.x.x2'
             description: 'release version2'
-            trim: 'true'
+
+          choice:
+            event_rule_status:
+              description: 'Change event rule status'
+              choices: ['enable', 'disable']
 
     awsEventRule:
       eventRule: 'test'
       region: 'ap-northeast-1'
       inputParams:
+        string: 
+          releaseVersion:
+            defaultValue: 'x.x.x'
+            description: 'release version'
+            
         choice:
           event_rule_status:
             description: 'Change event rule status'

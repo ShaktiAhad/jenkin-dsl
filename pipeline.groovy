@@ -38,7 +38,7 @@ pipelines.each{key, value ->
                         parameters{
                             if (param_type == "string"){
                                 param_detail.each{str_key, str_val -> 
-                                    stringParam(str_key, str_val.defaultValue, str_val.description, trim.trim)
+                                    stringParam(str_key, str_val.defaultValue, str_val.description)
                                 }
                             }
                             else if (param_type == "choice"){

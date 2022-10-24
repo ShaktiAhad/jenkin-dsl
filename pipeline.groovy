@@ -15,7 +15,10 @@ pipelines.each{key, value ->
 
         }
         else if (pipeline_name != "common"){
-            pipelineJob("${key}/${project}/${pipeline_name}"){
+            folder_path = "${key}/${project}}"
+            pipeline = "${folder_path}/${pipeline_name}"
+            println (pipeline)
+            pipelineJob("${pipeline}"){
                 description ("Pipeline for ${pipeline_name} job")
                 logRotator(-1, 3)
                 definition{

@@ -1,5 +1,5 @@
 conf:
-  aws:
+  gcp:
     common:
       gitUrl: 'https://github.com/ShaktiAhad/Automation.git'
       branch: 'main'

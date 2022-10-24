@@ -7,7 +7,6 @@ pipeline {
                 echo 'Hello World'
                 script{
                     def datas = readYaml file: "${WORKSPACE}/projects.yaml"
-                    println datas
                     def createFolders = load "${WORKSPACE}/folder.groovy"
                     createFolders.d(datas)
                 }

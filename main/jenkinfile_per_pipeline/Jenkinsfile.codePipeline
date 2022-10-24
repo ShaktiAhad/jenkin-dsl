@@ -1,10 +1,10 @@
 @Library('my-aws-library') _
 
 node('master'){
-    def f = "${WORKSPACE}"
+    def workspace = "${WORKSPACE}"
     stage('workspace'){
-        println f
-        println f.getClass()
+        def get_project = workspace.split('/')[-2]
+        println get_project
     }
 
     // stage('check release branch on codeCommit'){

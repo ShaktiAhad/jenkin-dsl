@@ -1,4 +1,4 @@
-def call(dslScript = "seed_folder.groovy", folders) {
+def call(dslScript, folders) {
     print "inside createfolders"
 
     jobDsl targets: dslScript, additionalParameters: [folders: folders]

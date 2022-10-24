@@ -7,13 +7,13 @@
 def d(content){
     contentt = content
 }
-
-contentt.each{tech, projects ->
-    folder("${tech}")
-    for (each_project in projects){
-        projectFolder = "${tech}/${each_project}"
-        folder("${projectFolder}")
-        // def f = load ("${workspace}/pipelineCreator.groovy")
-        // f(workspace, each_project)
-    }
-}
+println content
+// contentt.each{tech, projects ->
+//     folder("${tech}")
+//     for (each_project in projects){
+//         projectFolder = "${tech}/${each_project}"
+//         folder("${projectFolder}")
+//         // def f = load ("${workspace}/pipelineCreator.groovy")
+//         // f(workspace, each_project)
+//     }
+// }

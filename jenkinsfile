@@ -3,7 +3,7 @@ node('master'){
         checkout scm: [
             $class: 'GitSCM', 
             userRemoteConfigs: [
-                [url: 'git@github.com:ShaktiAhad/Automation.git', credentialsId: 'personal-git-cred']], 
+                [url: 'git@github.com:ShaktiAhad/jenkin-dsl.git', credentialsId: 'personal-git-cred']], 
                 branches: [[name: 'refs/heads/main']]
         ], 
         poll: false

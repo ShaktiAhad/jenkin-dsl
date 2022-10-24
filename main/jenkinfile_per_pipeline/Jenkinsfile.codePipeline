@@ -3,8 +3,10 @@
 node('master'){
     stage('workspace'){
         param = env.PARAMS_STR
-        println (param.common)
-        println (param.awsCodePipeline)
+        println param
+        println param.getClass()
+        // println (param.common)
+        // println (param.awsCodePipeline)
     }
 
     // stage('check release branch on codeCommit'){

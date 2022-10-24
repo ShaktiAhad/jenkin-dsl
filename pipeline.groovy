@@ -14,6 +14,12 @@ pipelines.each{key, value ->
             pipelineJob("${pipline}"){
                 description ("Pipeline for ${pipeline_name} job")
                 logRotator(-1, 3)
+                properties {
+                    disableConcurrentBuilds()
+                }
+                environmentVariables(
+                    PARAMS_STR: params,
+                )
                 definition{
                     cpsScm{
                         scm {

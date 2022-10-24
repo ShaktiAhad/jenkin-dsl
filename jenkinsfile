@@ -1,5 +1,9 @@
 import groovy.json.JsonBuilder
 node('master'){
+    properties([
+        buildDiscarder(logRotator(daysToKeepStr: '3', numToKeepStr: '3'))
+        disableConcurrentBuilds()
+    ])
     stage("clone repository"){
         checkout scm: [
             $class: 'GitSCM', 

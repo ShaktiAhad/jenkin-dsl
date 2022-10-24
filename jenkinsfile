@@ -19,7 +19,7 @@ node('master'){
                 def pipeline_data = pipelines["conf"]
                 if (tech == "aws"){
                     get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
-                    jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: get_param]
+                    jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: get_param(pipeline_data)]
                 }
             }
         }

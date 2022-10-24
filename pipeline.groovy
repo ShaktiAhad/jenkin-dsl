@@ -17,7 +17,7 @@ pipelines.each{key, value ->
         else if (pipeline_name != "common"){
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"
-            println (pipline)
+            println (folder_path)
             pipelineJob("${pipline}"){
                 description ("Pipeline for ${pipeline_name} job")
                 logRotator(-1, 3)

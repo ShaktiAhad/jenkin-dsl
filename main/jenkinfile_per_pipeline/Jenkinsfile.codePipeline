@@ -3,7 +3,7 @@
 node('master'){
     stage('workspace'){
         param = env.PARAMS_STR
-        println (param.common.)
+        println (param.common)
         println (param.awsCodePipeline)
     }
 

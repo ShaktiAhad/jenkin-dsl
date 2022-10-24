@@ -7,8 +7,10 @@ pipeline {
                 echo 'Hello World'
                 script{
                     def datas = readYaml file: "${WORKSPACE}/projects.yaml"
-                    def f = "folder.groovy"
-                    jobDsl targets: f, additionalParameters: [folders: datas]
+                    def f = load "${WORKSPACE}/s.groovy"
+                    f("folder.groovy", datas)
+                    // def f = "folder.groovy"
+                    // jobDsl targets: f, additionalParameters: [folders: datas]
                 }
             }
         }

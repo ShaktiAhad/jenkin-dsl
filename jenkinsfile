@@ -14,7 +14,7 @@ pipeline {
                             def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
                             def pipeline_data = pipelines["conf"]
                             if (tech == "aws"){
-                                get_param = load "awsCodePipeline.groovy"
+                                get_param = load "main/lib/awsCodePipeline.groovy"
                                 jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: get_param]
                             }
                         }

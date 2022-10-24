@@ -4,7 +4,7 @@ node('master'){
     def workspace = "${WORKSPACE}"
     stage('workspace'){
         def get_project = workspace.split('/')[-2]
-        def pipelines = readYaml file: "${WORKSPACE}/projects/${get_project}/config.yaml"
+        def pipelines = readYaml file: "projects/${get_project}/config.yaml"
         def pipeline_data = pipelines["conf"]
         println (pipeline_data)
     }

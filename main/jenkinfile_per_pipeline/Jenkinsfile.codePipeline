@@ -6,8 +6,8 @@ def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 awsCodePipeline = param.awsCodePipeline
 
 get_param = awsCodePipeline.cfStack.parameters
-updated_param = get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'watashino-tesuto-bucketsu')
-param_json = new JsonBuilder(updated_param).toPrettyString()
+get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'watashino-tesuto-bucketsu')
+param_json = new JsonBuilder(get_param).toPrettyString()
 
 node('master'){
     stage('prepraration'){

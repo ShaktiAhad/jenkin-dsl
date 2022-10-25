@@ -13,10 +13,6 @@ conf:
         parameters: 
           - ParameterKey: 'Environment'
             ParameterValue: 'test'
-          - ParameterKey: 'sdsd'
-            ParameterValue: 'ddfd'
-          - ParameterKey: 'vbgbgb'
-            ParameterValue: 'gnhn' 
       codePipeline: 'shakti-test-nodejs'
       region: 'ap-northeast-1'
       inputParams:

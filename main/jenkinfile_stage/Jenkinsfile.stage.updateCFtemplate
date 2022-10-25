@@ -2,8 +2,8 @@
 @Library('pipeline-library') _
 TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
 
-def call(region, stack){
-    println (awsUpdateCloudformationStack(region, stack))
+def call(region, stack, params){
+    println (awsUpdateCloudformationStack(region, stack, params))
     stack_events = awsDescribeStackEvents(region, stack)
     i = 1
     while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){

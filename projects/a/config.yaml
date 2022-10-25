@@ -11,7 +11,8 @@ conf:
       cfStack:
         name: 's3-bucket-cf'
         parameters: 
-          Environment: 'test'
+          - ParameterKey: 'Environment'
+            ParameterValue: 'test' 
       codePipeline: 'shakti-test-nodejs'
       region: 'ap-northeast-1'
       inputParams:

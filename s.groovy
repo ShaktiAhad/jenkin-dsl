@@ -15,6 +15,12 @@ pipeline_data.each{key, value ->
             params[pipeline_name].codePipeline = pipeline_val.get("codePipeline", "empty")
             params[pipeline_name].eventRule = pipeline_val.get("eventRule", "empty")
             params[pipeline_name].region = pipeline_val.get("region", "empty")
+            // // sd = []
+            // params[pipeline_name].paramas = []
+            // for (f in pipeline_val.parameters ){
+            //     params[pipeline_name].paramas.add(["ParameterKey = ${f.key}, ParameterValue = ${f.value}"])
+
+            // } 
         }
         else if (pipeline_name == "common")
             params[pipeline_name].gitUrl = pipeline_val.get("gitUrl", "empty")
@@ -23,13 +29,4 @@ pipeline_data.each{key, value ->
     }
 }
 
-def d = [env:"test",
-         sd: "eds",
-         asd: "dss"]
-
-sd = []
-for (f in d){
-    sd.add(["ParameterKey = ${f.key}, ParameterValue = ${f.value}"])
-
-}
-println (sd)
+println (params)

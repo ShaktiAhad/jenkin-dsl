@@ -1,37 +1,28 @@
-@Library('my-aws-library') _
+@Library('pipeline-library') _
+import groovy.json.JsonSlurperClassic
+def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
+awsEventRule = param.awsEventRule
 
 node('master'){
-    properties([
-        buildDiscarder(logRotator(daysToKeepStr: '3', numToKeepStr: '3')),
-        parameters([
-            string(
-                name: 'event_rule_name', 
-                defaultValue: 'test',
-                description: 'event rule name', 
-                trim: true
-            ),
-            choice(
-                name: 'event_rule_status',
-                description: 'Change event rule status', 
-                choices: ['enable', 'disable']
-            )
-        ])
-    ])
+    stage('prepraration'){
+        println "--> prepraration stage"
+        def common = param.common
+        checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
+    }
 
     stage('Changing event rule status'){
-        checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: 'git@github.com:ShaktiAhad/Automation.git', credentialsId: 'personal-git-cred']], branches: [[name: 'refs/heads/main']]], poll: false
         println "--> Changing event rule status stage"
         if (params.event_rule_status == "enable"){
-            enable_eventRule = enable_eventRule()
+            awsEnableEventRule = awsEnableEventRule(awsEventRule.region, awsEventRule.eventRule)
             sleep(7)
-            describe_eventRule = describe_eventRule()
-            println ("Rule_name: "+describe_eventRule["Name"]+ ", Status: "+describe_eventRule["State"])
+            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.region, awsEventRule.eventRule)
+            println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
         }
         if (params.event_rule_status == "disable"){
-            disable_eventRule = disable_eventRule()
+            awsDisableEventRule = awsDisableEventRule(awsEventRule.region, awsEventRule.eventRule)
             sleep(7)
-            describe_eventRule = describe_eventRule()
-            println ("Rule_name: "+describe_eventRule["Name"]+ ", Status: "+describe_eventRule["State"])
+            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.region, awsEventRule.eventRule)
+            println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
         }
 
     }   

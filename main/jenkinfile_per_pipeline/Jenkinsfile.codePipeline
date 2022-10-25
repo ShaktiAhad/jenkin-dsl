@@ -1,30 +1,30 @@
-@Library('my-aws-library') _
+@Library('pipeline-library') _
 import groovy.json.JsonSlurperClassic
+def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
+awsCodePipeline = param.awsCodePipeline
 
 node('master'){
-    stage('workspace'){
-        def params = new JsonSlurperClassic().parseText(env.PARAMS_STR)
-        println (params.common.get("region", "empty"))
-        println (params.awsCodePipeline.get("codeCommitRepo", "empty"))
+    stage('prepraration'){
+        println "--> prepraration stage"
+        def common = param.common
+        checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
 
-    // stage('check release branch on codeCommit'){
-    //     checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: 'git@github.com:ShaktiAhad/Automation.git', credentialsId: 'personal-git-cred']], branches: [[name: 'refs/heads/main']]], poll: false
-    //     println "--> check release branch on codeCommit stage"
-    //     branch_name = codeCommit_branch_check()
-    // }
+    stage('check release branch on codeCommit'){
+        println "--> check release branch on codeCommit stage"
+        branch_name = awsCodeCommitBranchCheck(awsCodePipeline.region, awsCodePipeline.codeCommitRepo, params.releaseVersion)
+    }
 
-    // stage('Update CF template and get stack events'){
-    //     println "--> Update CF template and get stack events stage"
-    //     def updateCFtemplate = load ("aws-poc/jenkinfile/Jenkinsfile.stage.updateCFtemplate")
-    //     updateCFtemplate()
-
-    // }
+    stage('Update CF template and get stack events'){
+        println "--> Update CF template and get stack events stage"
+        def updateCFtemplate = load ("aws-poc/jenkinfile/Jenkinsfile.stage.updateCFtemplate")
+        updateCFtemplate(awsCodePipeline.region, awsCodePipeline.cfStack)
+    }
 
     // stage('execute code pipeline & get pipeline status'){
     //     println "--> execute code pipeline & get pipeline status stage"
     //     def execCodePipeline = load("aws-poc/jenkinfile/Jenkinsfile.stage.execCodePipeline")
-    //     execCodePipeline()
+    //     execCodePipeline(awsCodePipeline.region, awsCodePipeline.codePipeline)
     // }    
 
     stage('workspace cleanup'){

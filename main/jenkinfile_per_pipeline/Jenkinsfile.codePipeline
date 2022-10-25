@@ -9,6 +9,9 @@ get_param = awsCodePipeline.cfStack.parameters
 get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'watashino-tesuto-bucketsu')
 param_json = new JsonBuilder(get_param).toPrettyString()
 
+println param_json
+println param_json.getClass()
+
 node('master'){
     stage('prepraration'){
         println "--> prepraration stage"

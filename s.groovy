@@ -1,5 +1,6 @@
 @Grab('org.yaml:snakeyaml:1.33')
 import org.yaml.snakeyaml.Yaml
+import groovy.json.JsonBuilder
 
 def content = new Yaml().load(("projects/a/config.yaml" as File).text)
 pipeline_data = content["conf"]
@@ -28,5 +29,13 @@ pipeline_data.each{key, value ->
             params[pipeline_name].cred = pipeline_val.get("cred", "empty")
     }
 }
+import groovy.json.JsonBuilder
+new JsonBuilder([test: 'test', test2: 'test2']).toPrettyString()
 
-println (params)
+
+p = params.awsCodePipeline.cfStack.parameters
+p.add('ParameterKey':'wewew', 'ParameterValue':'reer')
+d_json = new JsonBuilder(p).toPrettyString()
+println d_json
+// [{"ParameterKey":"Environment","ParameterValue":"test"}]
+// [[ParameterValue:test, ParameterKey:Environment], [ParameterValue:test, ParameterKey:Environment]]

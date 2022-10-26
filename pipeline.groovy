@@ -11,7 +11,7 @@ pipelines.each{key, value ->
         else if (pipeline_name != "common"){
             GroovyShell shell = new GroovyShell()
             load_paramfile = shell.parse(new File("${workspace}/main/lib/${pipeline_name}.groovy"))
-            params = load_paramfile(pipelines)
+            def params = new JsonBuilder(load_paramfile(pipelines)).toString()
             println (pipeline_name)
             println (pipelines)
             jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]

@@ -13,7 +13,7 @@ pipelines.each{key, value ->
             load_paramfile = shell.parse(new File("${workspace}/main/lib/${pipeline_name}.groovy"))
             def params = new JsonBuilder(load_paramfile(pipelines)).toString()
             println (pipeline_name)
-            println (pipelines)
+            println (params)
             jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"

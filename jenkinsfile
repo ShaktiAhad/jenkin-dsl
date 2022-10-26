@@ -23,9 +23,18 @@ node('master'){
                 def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
                 def pipeline_data = pipelines["conf"]
                 if (tech == "aws"){
-                    get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
-                    def paramsStr = new JsonBuilder(get_param(pipeline_data)).toString()
-                    jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: paramsStr]
+                    pipeline_data.each{key, value ->
+                        value.each{pipeline_name, pipeline_val ->
+                            if (pipeline_name != "awsCodePipeline"){
+                                def get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
+                            }
+                            else if (pipeline_name != "awsEventRule"){
+                                def get_param = load "${WORKSPACE}/main/lib/awsEventRule.groovy"
+                            }
+                        }
+                    }
+                def paramsStr = new JsonBuilder(get_param(pipeline_data)).toString()
+                jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: paramsStr]
                 }
             }
         }

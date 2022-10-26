@@ -23,7 +23,6 @@ node('master'){
                 def pipelines = readYaml file: "${WORKSPACE}/projects/${each_project}/config.yaml"
                 def pipeline_data = pipelines["conf"]
                 jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project]
-                }
             }
         }
     }

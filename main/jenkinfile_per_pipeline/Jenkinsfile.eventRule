@@ -3,6 +3,7 @@ import groovy.json.JsonSlurperClassic
 
 // def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 def param = env.PARAMS_STR
+println (param)
 awsEventRule = param.awsEventRule
 
 node('master'){

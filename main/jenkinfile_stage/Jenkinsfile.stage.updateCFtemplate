@@ -11,7 +11,7 @@ def call(region, stack, params){
         println ("attemp: ${i} -> CloudFormation Update is in progress.")
         i++
         sleep(10)
-        if (i == 3) {
+        if (i == 5) {
             println("## Failed to update ClouFormation.\n")
             stack_events = awsDescribeStackEvents(region, stack)
             for (object in stack_events){

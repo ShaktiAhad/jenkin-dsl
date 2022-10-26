@@ -15,7 +15,7 @@ pipeline_data = content["conf"]
 
 // println (load_paramfile.execute ("hello"))
 
-GroovyShell sdsd = new GroovyShell()
-def greetings = sdsd.parse(new File('ss.groovy'))
+GroovyShell shell = new GroovyShell()
+def greetings = shell.parse(new File('ss.groovy'))
 
 println(greetings.sd('Shakti'))

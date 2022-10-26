@@ -1,5 +1,5 @@
-import static Ansi.*
 def f(){
-    println ("Hello, in Red", Ansi.RED)
+    def name = "shakti"
+    println ("\e[31mHello ${name}, in Red\e[0m\n")
 }
 return this

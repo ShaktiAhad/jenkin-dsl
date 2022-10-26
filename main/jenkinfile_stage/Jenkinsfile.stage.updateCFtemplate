@@ -4,25 +4,25 @@ TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
 
 def call(region, stack, params){
     println (awsUpdateCloudformationStack(region, stack, params))
-    i = 1
+    attempt = 1
     while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
-        println ("attemp: ${i} -> CloudFormation Update is in progress.")
-        i++
+        println ("--> CloudFormation Update is in progress.")
+        attempt++
         sleep(10)
-        if (i == 5) {
-            println("## Failed to update ClouFormation.\n")
+        if (attempt == 5) {
+            println("## [Bad news] Failed to update ClouFormation.\n")
             stack_events = awsDescribeStackEvents(region, stack)
             for (object in stack_events){
                 if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
                     println ("timestamp: "+object["Timestamp"]+", ResourceStatus: "+object["ResourceStatus"]+", ResourceStatusReason: "+object["ResourceStatusReason"]+".\n")
                 }
             }
-            throw new Exception("## Failed to update ClouFormation. Please check the ResourceStatusReason.")
+            throw new Exception("## [Bad news] Failed to update ClouFormation. Please check the ResourceStatusReason.\n")
         }
     }
 
     if (awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
-        println("CF is updated successfully.")
+        println("## [Good news] CF is updated successfully.")
     }
 }
 return this

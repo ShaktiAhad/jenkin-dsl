@@ -6,7 +6,7 @@ def call(aws_command){
     withEnv(["AWS_SHARED_CREDENTIALS_FILE=${credentialsFile}"]){
         def result = shReturnStdout(aws_command)
         if (result.length() == 0){
-            println (" ## No json output.")
+            println (" ## No json output for the command.")
         }
         else{
             def parser = new JsonSlurperClassic()

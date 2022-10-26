@@ -19,28 +19,19 @@ def pipeline_state(region, pipeline){
 
 def call(reg, pipeline_name){
     println (awsExecuteCodePipeline(reg, pipeline_name))
-    // i=1
-    // while(awsPipelineStatus(reg, pipeline_name) == "InProgress"){
-    //     println ("attemp: ${i} --> Deployment is on progress.")
-    //     pipeline_state(reg, pipeline_name)
-    //     i++
-    //     sleep (15)
-    // }
-    def d = awsPipelineStatus(reg, pipeline_name)
-    d.watch(awsPipelineStatus(reg, pipeline_name)){
-        if (awsPipelineStatus(reg, pipeline_name) == "InProgress"){
-            println ("--> Deployment is on progress.")
-            pipeline_state(reg, pipeline_name)
-        }
+    while(awsPipelineStatus(reg, pipeline_name) == "InProgress"){
+        println ("--> Deployment is in progress.")
+        pipeline_state(reg, pipeline_name)
+        sleep (15)
     }
 
     if (awsPipelineStatus(reg, pipeline_name) == "Succeeded"){
-        println("--> Deployment is completed successfully.")
+        println("## [Good news] Deployment is completed successfully.")
         pipeline_state(reg, pipeline_name)
     }
     else {
         pipeline_state(reg, pipeline_name)
-        throw new Exception ("## Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n")
+        throw new Exception ("## [Bad news] Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n")
     }
 }
 return this

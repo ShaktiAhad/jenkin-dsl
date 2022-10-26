@@ -1,9 +1,9 @@
 @Library('pipeline-library') _
 import groovy.json.JsonSlurperClassic
-def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
+
+// def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
+def param = env.PARAMS_STR
 awsEventRule = param.awsEventRule
-println (param)
-println (awsEventRule)
 
 node('master'){
     stage('prepraration'){

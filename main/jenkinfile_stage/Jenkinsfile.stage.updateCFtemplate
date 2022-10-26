@@ -4,11 +4,11 @@ TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
 
 def call(region, stack, params){
     println (awsUpdateCloudformationStack(region, stack, params))
-    stack_events = awsDescribeStackEvents(region, stack)
     i = 1
     while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
-        res = awsDescribeStackEvents(region, stack)
-        println ("attempt: " + i + ", timestamp: "+res["Timestamp"][0]+", ResourceStatus: "+res["ResourceStatus"][0]+", ResourceStatusReason: "+res["ResourceStatusReason"][0]+".\n")
+        // res = awsDescribeStackEvents(region, stack)
+        // println ("attempt: " + i + ", timestamp: "+res["Timestamp"][0]+", ResourceStatus: "+res["ResourceStatus"][0]+", ResourceStatusReason: "+res["ResourceStatusReason"][0]+".\n")
+        println ("CloudFormation Update is in progress.")
         i++
         if (i == 3) {
             println("## Failed to update ClouFormation.\n")
@@ -23,9 +23,9 @@ def call(region, stack, params){
     }
 
     if (awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
-        get_first_event = awsDescribeStackEvents(region, stack)
+        // get_first_event = awsDescribeStackEvents(region, stack)
         println("CF is updated successfully.")
-        println ("timestamp: "+get_first_event["Timestamp"][0]+", ResourceStatus: "+get_first_event["ResourceStatus"][0]+", ResourceStatusReason: "+get_first_event["ResourceStatusReason"][0]+".\n")
+        // println ("timestamp: "+get_first_event["Timestamp"][0]+", ResourceStatus: "+get_first_event["ResourceStatus"][0]+", ResourceStatusReason: "+get_first_event["ResourceStatusReason"][0]+".\n")
     }
 }
 return this

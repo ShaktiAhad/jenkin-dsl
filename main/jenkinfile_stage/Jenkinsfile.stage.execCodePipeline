@@ -26,7 +26,7 @@ def call(reg, pipeline_name){
     }
     if (awsPipelineStatus(reg, pipeline_name) == "Succeeded"){
         println("--> Deployment is completed successfully.")
-        pipeline_state(reg, pipeline)
+        pipeline_state(reg, pipeline_name)
     }
     else {
         pipeline_state(reg, pipeline_name)

@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 @Library('pipeline-library') _
-import static Ansi.*
 
 def pipeline_state(region, pipeline){
     get_pipeline_state = awsPipelineStates(region, pipeline)
@@ -31,7 +30,7 @@ def call(reg, pipeline_name){
     }
     else {
         pipeline_state(reg, pipeline_name)
-        throw new Exception ("## Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n", Ansi.RED)
+        throw new Exception ("## Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n")
     }
 }
 return this

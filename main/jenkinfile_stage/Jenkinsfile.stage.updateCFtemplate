@@ -8,8 +8,9 @@ def call(region, stack, params){
     while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
         // res = awsDescribeStackEvents(region, stack)
         // println ("attempt: " + i + ", timestamp: "+res["Timestamp"][0]+", ResourceStatus: "+res["ResourceStatus"][0]+", ResourceStatusReason: "+res["ResourceStatusReason"][0]+".\n")
-        println ("CloudFormation Update is in progress.")
+        println ("attemp: ${i} -> CloudFormation Update is in progress.")
         i++
+        sleep(10)
         if (i == 3) {
             println("## Failed to update ClouFormation.\n")
             stack_events = awsDescribeStackEvents(region, stack)

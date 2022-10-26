@@ -27,14 +27,16 @@ node('master'){
                         value.each{pipeline_name, pipeline_val ->
                             if (pipeline_name != "awsCodePipeline"){
                                 get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
+                                paramsStr = new JsonBuilder(get_param(pipeline_data)).toString()
+                                jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: paramsStr]
                             }
                             else if (pipeline_name != "awsEventRule"){
                                 get_param = load "${WORKSPACE}/main/lib/awsEventRule.groovy"
+                                paramsStr = new JsonBuilder(get_param(pipeline_data)).toString()
+                                jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: paramsStr]
                             }
                         }
                     }
-                def paramsStr = new JsonBuilder(get_param(pipeline_data)).toString()
-                jobDsl targets: "pipeline.groovy", additionalParameters: [pipelines: pipeline_data, project: each_project, params: paramsStr]
                 }
             }
         }

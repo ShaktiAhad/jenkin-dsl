@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 @Library('pipeline-library') _
+import static Ansi.*
 
 def pipeline_state(region, pipeline){
     get_pipeline_state = awsPipelineStates(region, pipeline)
@@ -19,20 +20,18 @@ def call(reg, pipeline_name){
     println (awsExecuteCodePipeline(reg, pipeline_name))
     i=1
     while(awsPipelineStatus(reg, pipeline_name) == "InProgress"){
-        // println ("attempt: "+i+", Current status: "+ awsPipelineStatus(reg, pipeline_name))
         println ("attemp: ${i} --> Deployment is on progress.")
         pipeline_state(reg, pipeline_name)
         i++
         sleep (15)
     }
     if (awsPipelineStatus(reg, pipeline_name) == "Succeeded"){
-        // println ("Code Pipeline has been Successfully completed, Status: "+ awsPipelineStatus(reg, pipeline_name))
-        println("Deployment is completed successfully.")
+        println("--> Deployment is completed successfully.")
         pipeline_state(reg, pipeline)
     }
     else {
         pipeline_state(reg, pipeline_name)
-        throw new Exception ("## Code Pipeline has been Failed or Stopped or Aborted, Status: "+ awsPipelineStatus(reg, pipeline_name))
+        throw new Exception ("## Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n", Ansi.RED)
     }
 }
 return this

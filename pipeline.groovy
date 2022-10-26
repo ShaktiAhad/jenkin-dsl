@@ -2,13 +2,13 @@ pipelines.each{key, value ->
     value.each{pipeline_name, pipeline_val -> 
         if (pipeline_name == "common"){
             gitInfo = [:]
-            jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
             gitInfo.gitUrl = pipeline_val.get("gitUrl", 'empty')
             gitInfo.branch = pipeline_val.get("branch", 'empty')
             gitInfo.cred = "personal-git-cred"
 
         }
         else if (pipeline_name != "common"){
+            def jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"
             pipelineJob("${pipline}"){

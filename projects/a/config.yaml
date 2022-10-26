@@ -4,7 +4,6 @@ conf:
       gitUrl: 'https://github.com/ShaktiAhad/jenkin-dsl.git'
       branch: 'main'
       cred: 'personal-git-cred'
-      jenkinfilePath: 'main/jenkinfile_per_pipeline/Jenkinsfile.codePipeline'
       
     awsCodePipeline:
       codeCommitRepo: 'shakti-test-repo'
@@ -15,6 +14,7 @@ conf:
             ParameterValue: 'test'
       codePipeline: 'shakti-test-pipeline'
       region: 'ap-northeast-1'
+      jenkinfilePath: 'main/jenkinfile_per_pipeline/Jenkinsfile.codePipeline'
       inputParams:
         string: 
           releaseVersion:
@@ -24,6 +24,7 @@ conf:
     awsEventRule:
       eventRule: 'test'
       region: 'ap-northeast-1'
+      jenkinfilePath: 'main/jenkinfile_per_pipeline/Jenkinsfile.eventRule'
       inputParams:
         choice:
           event_rule_status:

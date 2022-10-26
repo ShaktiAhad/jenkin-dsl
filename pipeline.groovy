@@ -10,7 +10,7 @@ pipelines.each{key, value ->
         }
         else if (pipeline_name != "common"){
             GroovyShell shell = new GroovyShell()
-            load_paramfile = shell.parse(new File("${WORKSPACE}/main/lib/${pipeline_name}.groovy"))
+            load_paramfile = shell.parse(new File("main/lib/${pipeline_name}.groovy"))
             params = load_paramfile(pipelines)
             println (pipeline_name)
             println (pipelines)

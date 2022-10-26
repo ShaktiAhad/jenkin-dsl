@@ -2,6 +2,8 @@
 import groovy.json.JsonSlurperClassic
 def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 awsEventRule = param.awsEventRule
+println (param)
+println (awsEventRule)
 
 node('master'){
     stage('prepraration'){

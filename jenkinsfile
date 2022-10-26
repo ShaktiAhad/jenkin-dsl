@@ -26,10 +26,10 @@ node('master'){
                     pipeline_data.each{key, value ->
                         value.each{pipeline_name, pipeline_val ->
                             if (pipeline_name != "awsCodePipeline"){
-                                def get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
+                                get_param = load "${WORKSPACE}/main/lib/awsCodePipeline.groovy"
                             }
                             else if (pipeline_name != "awsEventRule"){
-                                def get_param = load "${WORKSPACE}/main/lib/awsEventRule.groovy"
+                                get_param = load "${WORKSPACE}/main/lib/awsEventRule.groovy"
                             }
                         }
                     }

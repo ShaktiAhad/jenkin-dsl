@@ -8,7 +8,6 @@ awsCodePipeline = param.awsCodePipeline
 get_param = awsCodePipeline.cfStack.parameters
 get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'ndvfefbcdgef')
 param_json = new JsonBuilder(get_param).toPrettyString()
-println param_json
 
 node('master'){
     stage('prepraration'){

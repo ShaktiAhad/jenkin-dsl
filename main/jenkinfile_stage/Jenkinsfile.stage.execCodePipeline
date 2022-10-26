@@ -29,7 +29,7 @@ def call(reg, pipeline_name){
 
     def d = awsPipelineStatus(reg, pipeline_name)
     d.watch{
-        if (awsPipelineStatus(reg, pipeline_name) == "InProgress"){
+        if (d == "InProgress"){
             println ("--> Deployment is on progress.")
             pipeline_state(reg, pipeline_name)
         }

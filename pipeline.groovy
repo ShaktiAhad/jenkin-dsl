@@ -8,7 +8,9 @@ pipelines.each{key, value ->
 
         }
         else if (pipeline_name != "common"){
-            def jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
+            load_paramfile = load "main/lib/${pipeline_name}.groovy"
+            params = load_paramfile(pipelines)
+            jenkinfilePath = [jenkinfilePath: pipeline_val.get("jenkinfilePath", 'empty')]
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"
             pipelineJob("${pipline}"){

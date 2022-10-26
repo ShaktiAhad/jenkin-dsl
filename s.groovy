@@ -11,3 +11,11 @@ filename = "config.yaml"
 content = new YamlSlurper().parse(new File("projects/a/config.yaml"))
 pipeline_data = content["conf"]
 
+// load_paramfile = new File("ss.groovy")
+
+// println (load_paramfile.execute ("hello"))
+
+GroovyShell sdsd = new GroovyShell()
+def greetings = sdsd.parse(new File('ss.groovy'))
+
+println(greetings.sd('Shakti'))

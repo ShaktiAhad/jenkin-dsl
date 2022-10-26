@@ -13,7 +13,7 @@ def call(pipeline_data){
                 params[pipeline_name].cred = pipeline_val.get("cred", "empty")
             }
         }
-    }  
+    }   
     return params
 }
 return this

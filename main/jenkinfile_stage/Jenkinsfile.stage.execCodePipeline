@@ -17,13 +17,22 @@ def pipeline_state(region, pipeline){
 
 def call(reg, pipeline_name){
     println (awsExecuteCodePipeline(reg, pipeline_name))
-    i=1
-    while(awsPipelineStatus(reg, pipeline_name) == "InProgress"){
-        println ("attemp: ${i} --> Deployment is on progress.")
-        pipeline_state(reg, pipeline_name)
-        i++
-        sleep (15)
+    // i=1
+    // while(awsPipelineStatus(reg, pipeline_name) == "InProgress"){
+    //     println ("attemp: ${i} --> Deployment is on progress.")
+    //     pipeline_state(reg, pipeline_name)
+    //     i++
+    //     sleep (15)
+    // }
+
+    def d = awsPipelineStatus(reg, pipeline_name)
+    d.watch{
+        if (d == "InProgress"){
+            println ("attemp: ${i} --> Deployment is on progress.")
+            pipeline_state(reg, pipeline_name)
+        }
     }
+
     if (awsPipelineStatus(reg, pipeline_name) == "Succeeded"){
         println("--> Deployment is completed successfully.")
         pipeline_state(reg, pipeline_name)

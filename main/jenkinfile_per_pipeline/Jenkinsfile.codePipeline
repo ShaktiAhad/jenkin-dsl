@@ -6,7 +6,7 @@ def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 awsCodePipeline = param.awsCodePipeline
 
 get_param = awsCodePipeline.cfStack.parameters
-get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'nmscnmliefjnv')
+get_param.add('ParameterKey':'BucketPrefix', 'ParameterValue':'lskfvnsvsbcjdfkndvn')
 param_json = new JsonBuilder(get_param).toPrettyString()
 println param_json
 
@@ -28,11 +28,11 @@ node('master'){
         updateCFtemplate(awsCodePipeline.region, awsCodePipeline.cfStack.name, param_json)
     }
 
-    // stage('execute code pipeline & get pipeline status'){
-    //     println "--> execute code pipeline & get pipeline status stage"
-    //     def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
-    //     execCodePipeline(awsCodePipeline.region, awsCodePipeline.codePipeline)
-    // }    
+    stage('execute code pipeline & get pipeline status'){
+        println "--> execute code pipeline & get pipeline status stage"
+        def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
+        execCodePipeline(awsCodePipeline.region, awsCodePipeline.codePipeline)
+    }    
 
     stage('workspace cleanup'){
         cleanWs()

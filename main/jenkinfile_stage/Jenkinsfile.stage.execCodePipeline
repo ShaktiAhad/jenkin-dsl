@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
 @Library('pipeline-library') _
-// import groovy.json.JsonSlurperClassic
-// import static groovy.json.JsonOutput.*
 
 def pipeline_state(region, pipeline){
     get_pipeline_state = awsPipelineStates(region, pipeline)

@@ -12,7 +12,7 @@ conf:
         parameters: 
           - ParameterKey: 'Environment'
             ParameterValue: 'test'
-      codePipeline: 'shakti-test-pipeline'
+      codePipeline: 'shakti-test-nodejs' # 'shakti-test-pipeline'
       region: 'ap-northeast-1'
       jenkinfilePath: 'main/jenkinfile_per_pipeline/Jenkinsfile.codePipeline'
       inputParams:

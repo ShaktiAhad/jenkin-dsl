@@ -14,3 +14,9 @@
 // filename = "config.yaml"
 // content = new YamlSlurper().parse(new File("projects/a/config.yaml"))
 // pipeline_data = content["conf"]
+
+conf = [cfParams:[parameterKey: 'Environment', 'parameterValue': 'test']]
+
+conf.cfParams.each{k,v -> 
+    println (k.capitalize())
+}

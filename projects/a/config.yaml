@@ -20,7 +20,7 @@ conf:
           releaseVersion:
             defaultValue: 'x.x.x'
             description: 'release version'
-        string: 
+
           bucket:
             description: 'put bucket name'
 

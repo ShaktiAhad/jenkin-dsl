@@ -23,3 +23,4 @@ def cfStackParams = new JsonSlurperClassic().parseText(d)
 def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
 updateBranchValue.'ParameterValue' = "accord"
 println new JsonBuilder(cfStackParams).toPrettyString()
+println(d)

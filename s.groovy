@@ -17,6 +17,7 @@ pipeline_data = content["conf"]
 
 import groovy.json.*
 d = '[{"ParameterValue":"test", "ParameterKey":"Environment"}, {"ParameterValue":"zcbscnbvdbscvb", "ParameterKey":"BucketPrefix"}]'
+// https://stackoverflow.com/questions/46781417/how-to-update-a-key-value-in-json-dynamically
 def cfStackParams = new JsonSlurper().parseText(d)
 def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
 updateBranchValue.'ParameterValue' = "accord"

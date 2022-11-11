@@ -14,10 +14,11 @@ import groovy.yaml.YamlSlurper
 filename = "config.yaml"
 content = new YamlSlurper().parse(new File("projects/a/config.yaml"))
 pipeline_data = content["conf"]
+// https://stackoverflow.com/questions/46781417/how-to-update-a-key-value-in-json-dynamically
+
 
 import groovy.json.*
 d = '[{"ParameterValue":"test", "ParameterKey":"Environment"}, {"ParameterValue":"zcbscnbvdbscvb", "ParameterKey":"BucketPrefix"}]'
-// https://stackoverflow.com/questions/46781417/how-to-update-a-key-value-in-json-dynamically
 def cfStackParams = new JsonSlurperClassic().parseText(d)
 def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
 updateBranchValue.'ParameterValue' = "accord"

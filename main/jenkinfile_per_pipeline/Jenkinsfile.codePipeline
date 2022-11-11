@@ -8,9 +8,7 @@ awsCodePipeline = param.awsCodePipeline
 
 node('master'){
     def getCFparam = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"]
-    def cfStackParams = new JsonBuilder(getCFparam)
-    println (cfStackParams)
-    println (getCFparam.getClass())
+    def cfStackParams = new JsonBuilder(getCFparam).toPrettyString()
     def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
     updateBranchValue.'ParameterValue' = "${env.bucket}"
     param_json = new JsonBuilder(cfStackParams).toPrettyString()

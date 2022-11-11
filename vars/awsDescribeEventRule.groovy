@@ -1,3 +1,3 @@
-def call(region, rule){
-    return (shReturnJson("aws events describe-rule --region ${region} --name ${rule}"))
+def call(rule){
+    return (awsCommand("events describe-rule --name ${rule}"))
 }

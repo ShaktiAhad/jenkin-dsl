@@ -1,3 +1,3 @@
-def call(region, pipeline){
-    return (shReturnJson("aws codepipeline start-pipeline-execution --region ${region} --name ${pipeline}"))
+def call(pipeline){
+    return (awsCommand("codepipeline start-pipeline-execution --name ${pipeline}"))
 }

@@ -6,9 +6,10 @@ def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 awsCodePipeline = param.awsCodePipeline
 
 def cfStackParams = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"]
-def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
-updateBranchValue.'ParameterValue' = "${env.bucket}"
-param_json = new JsonBuilder(cfStackParams).toPrettyString()
+println (cfStackParams)
+// def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
+// updateBranchValue.'ParameterValue' = "${env.bucket}"
+// param_json = new JsonBuilder(cfStackParams).toPrettyString()
 
 node('master'){
     stage('prepraration'){

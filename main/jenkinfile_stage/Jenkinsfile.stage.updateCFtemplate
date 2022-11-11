@@ -2,16 +2,16 @@
 @Library('pipeline-library') _
 TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
 
-def call(region, stack, params){
-    println (awsUpdateCloudformationStack(region, stack, params))
+def call(stack, params){
+    println (awsUpdateCloudformationStack(stack, params))
     attempt = 1
-    while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
+    while(awsDescribeStackEvents(stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
         println ("--> CloudFormation Update is in progress.")
         attempt++
         sleep(10)
         if (attempt == 5) {
             println("## [Bad news] Failed to update ClouFormation.\n")
-            stack_events = awsDescribeStackEvents(region, stack)
+            stack_events = awsDescribeStackEvents(stack)
             for (object in stack_events){
                 if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
                     println ("timestamp: "+object["Timestamp"]+", ResourceStatus: "+object["ResourceStatus"]+", ResourceStatusReason: "+object["ResourceStatusReason"]+".\n")
@@ -21,7 +21,7 @@ def call(region, stack, params){
         }
     }
 
-    if (awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
+    if (awsDescribeStackEvents(stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
         println("## [Good news] CF is updated successfully.")
     }
 }

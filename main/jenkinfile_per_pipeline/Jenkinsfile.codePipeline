@@ -7,9 +7,8 @@ awsCodePipeline = param.awsCodePipeline
 
 
 node('master'){
-    def getCFparam = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"]
-    def cfStackParams = new JsonBuilder(getCFparam)
-    def updateBranchValue = cfStackParams[0].find {it.'ParameterKey' == "BucketPrefix"}
+    def cfStackParams = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"][0]
+    def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
     updateBranchValue.'ParameterValue' = "${env.bucket}"
     param_json = new JsonBuilder(cfStackParams).toPrettyString()
 
@@ -24,17 +23,17 @@ node('master'){
         branch_name = awsCodeCommitBranchCheck(awsCodePipeline.codeCommitRepo, params.releaseVersion)
     }
 
-    // stage('Update CF template and get stack events'){
-    //     println "--> Update CF template and get stack events stage"
-    //     def updateCFtemplate = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.updateCFtemplate")
-    //     updateCFtemplate(awsCodePipeline.cfStack.name, param_json)
-    // }
+    stage('Update CF template and get stack events'){
+        println "--> Update CF template and get stack events stage"
+        def updateCFtemplate = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.updateCFtemplate")
+        updateCFtemplate(awsCodePipeline.cfStack.name, param_json)
+    }
 
-    // stage('execute code pipeline & get pipeline status'){
-    //     println "--> execute code pipeline & get pipeline status stage"
-    //     def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
-    //     execCodePipeline(awsCodePipeline.codePipeline)
-    // }    
+    stage('execute code pipeline & get pipeline status'){
+        println "--> execute code pipeline & get pipeline status stage"
+        def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
+        execCodePipeline(awsCodePipeline.codePipeline)
+    }    
 
     stage('workspace cleanup'){
         cleanWs()

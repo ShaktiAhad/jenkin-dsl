@@ -5,13 +5,14 @@ import groovy.json.JsonBuilder
 def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
 awsCodePipeline = param.awsCodePipeline
 
-def cfStackParams = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"]
-println (cfStackParams)
-// def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
-// updateBranchValue.'ParameterValue' = "${env.bucket}"
-// param_json = new JsonBuilder(cfStackParams).toPrettyString()
 
 node('master'){
+    def cfStackParams = awsDescribeStack(awsCodePipeline.cfStack)["Stacks"]["Parameters"]
+    println (cfStackParams)
+    def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
+    updateBranchValue.'ParameterValue' = "${env.bucket}"
+    param_json = new JsonBuilder(cfStackParams).toPrettyString()
+    
     stage('prepraration'){
         println "--> prepraration stage"
         def common = param.common

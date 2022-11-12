@@ -14,15 +14,15 @@ node('master'){
     stage('Changing event rule status'){
         println "--> Changing event rule status stage"
         if (params.event_rule_status == "enable"){
-            awsEnableEventRule = awsEnableEventRule(awsEventRule.region, awsEventRule.eventRule)
+            awsEnableEventRule = awsEnableEventRule(awsEventRule.eventRule)
             sleep(7)
-            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.region, awsEventRule.eventRule)
+            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.eventRule)
             println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
         }
         if (params.event_rule_status == "disable"){
-            awsDisableEventRule = awsDisableEventRule(awsEventRule.region, awsEventRule.eventRule)
+            awsDisableEventRule = awsDisableEventRule(awsEventRule.eventRule)
             sleep(7)
-            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.region, awsEventRule.eventRule)
+            awsDescribeEventRule = awsDescribeEventRule(awsEventRule.eventRule)
             println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
         }
 

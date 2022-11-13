@@ -25,7 +25,7 @@ node('master'){
 
     stage('check release branch on codeCommit'){
         println "--> check release branch on codeCommit stage"
-        branch_name = awsCodeCommitBranchCheck(region, codeCommitRepo, version)
+        branch_name = awsCodeCommitBranchCheck(region, repo, version)
     }
 
     stage('Update CF template and get stack events'){

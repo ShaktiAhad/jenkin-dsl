@@ -1,3 +1,3 @@
-def call(stack){
-    return(awsCommand("cloudformation describe-stack-events --stack-name ${stack}")["StackEvents"])
+def call(region, stack){
+    return(awsCommand("cloudformation describe-stack-events --region ${region} --stack-name ${stack}")["StackEvents"])
 }

@@ -1,3 +1,3 @@
-def call(rule){
-    return (awsCommand("events disable-rule --name ${rule}"))
+def call(region, rule){
+    return (awsCommand("events disable-rule --region ${region} --name ${rule}"))
 }

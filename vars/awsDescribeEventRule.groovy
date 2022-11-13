@@ -1,3 +1,3 @@
-def call(rule){
-    return (awsCommand("events describe-rule --name ${rule}"))
+def call(region, rule){
+    return (awsCommand("events describe-rule --region ${region} --name ${rule}"))
 }

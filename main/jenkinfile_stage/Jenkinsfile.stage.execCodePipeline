@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 @Library('pipeline-library') _
 
-def pipeline_state(pipeline){
-    get_pipeline_state = awsPipelineStates(pipeline)
+def pipeline_state(region, pipeline){
+    get_pipeline_state = awsPipelineStates(region, pipeline)
     for (stage in get_pipeline_state["stageStates"]){
         for (action in stage["actionStates"]){
             if (action.containsKey('latestExecution')){
@@ -15,20 +15,20 @@ def pipeline_state(pipeline){
     }
 }
 
-def call(pipeline_name){
-    println (awsExecuteCodePipeline(pipeline_name))
-    while(awsPipelineStatus(pipeline_name) == "InProgress"){
+def call(region, pipeline_name){
+    println (awsExecuteCodePipeline(region, pipeline_name))
+    while(awsPipelineStatus(region, pipeline_name) == "InProgress"){
         println ("--> Deployment is in progress.")
-        pipeline_state(pipeline_name)
+        pipeline_state(region, pipeline_name)
         sleep (15)
     }
 
-    if (awsPipelineStatus(pipeline_name) == "Succeeded"){
+    if (awsPipelineStatus(region, pipeline_name) == "Succeeded"){
         println("## [Good news] Deployment is completed successfully.")
-        pipeline_state(pipeline_name)
+        pipeline_state(region, pipeline_name)
     }
     else {
-        pipeline_state(pipeline_name)
+        pipeline_state(region, pipeline_name)
         throw new Exception ("## [Bad news] Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n")
     }
 }

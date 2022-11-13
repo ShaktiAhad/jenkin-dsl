@@ -1,3 +1,3 @@
-def call(pipeline){
-    return (awsCommand("codepipeline start-pipeline-execution --name ${pipeline}"))
+def call(region, pipeline){
+    return (awsCommand("codepipeline start-pipeline-execution --region ${region} --name ${pipeline}"))
 }

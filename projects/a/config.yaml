@@ -5,7 +5,7 @@ conf:
       branch: 'main'
       cred: 'personal-git-cred'
       
-    codePipeline:
+    awsCodePipeline:
       codeCommitRepo: 'shakti-test-repo'
       cfStack: 's3-bucket-cf'
       codePipeline: 'shakti-test-pipeline' # 'shakti-test-nodejs' 
@@ -19,7 +19,7 @@ conf:
           bucket:
             description: 'put bucket name'
 
-    eventRule:
+    awsEventRule:
       eventRule: 'test'
       region: 'ap-northeast-1'
       inputParams:

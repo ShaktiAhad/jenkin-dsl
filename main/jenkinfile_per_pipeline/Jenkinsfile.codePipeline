@@ -39,7 +39,7 @@ node('master'){
             updateCFtemplate(region, cfStack, param_json)
         }
         else{
-            println ("proceeding code pipeline deploy stage")
+            println ("--> proceeding code pipeline deploy stage")
         }
     }
 

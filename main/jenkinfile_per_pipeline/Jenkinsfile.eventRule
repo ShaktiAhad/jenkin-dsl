@@ -2,7 +2,7 @@
 import groovy.json.JsonSlurperClassic
 
 def param = new JsonSlurperClassic().parseText(env.PARAMS_STR)
-awsEventRule = param.awsEventRule
+awsEventRule = param.eventRule
 region = awsEventRule.region
 rule = awsEventRule.eventRule
 

@@ -14,7 +14,6 @@ pipelines.each{key, value ->
             def params = new JsonBuilder(load_paramfile(pipelines)).toString()
             println (pipeline_name)
             println (params)
-            jenkinfilePath = ["main/jenkinfile_per_pipeline/Jenkinsfile.${pipeline_name}"]
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"
             pipelineJob("${pipline}"){
@@ -37,7 +36,7 @@ pipelines.each{key, value ->
                                 branch(gitInfo.branch)
                             }
                         }
-                        scriptPath(jenkinfilePath.jenkinfilePath)
+                        scriptPath("main/jenkinfile_per_pipeline/Jenkinsfile.${pipeline_name}")
                     }
                 }
 

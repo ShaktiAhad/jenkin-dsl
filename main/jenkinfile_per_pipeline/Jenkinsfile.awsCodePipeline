@@ -35,7 +35,7 @@ node('master'){
             updateCFtemplate(region, cfStack, param_json)
         }
         else{
-            println ("--> proceeding code pipeline deploy stage")
+            println ("--> exisiting and requested value is same. Proceeding code pipeline deploy stage")
         }
     }
 

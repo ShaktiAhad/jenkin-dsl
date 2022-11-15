@@ -24,3 +24,39 @@ def updateBranchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
 updateBranchValue.'ParameterValue' = "accord"
 println new JsonBuilder(cfStackParams).toPrettyString()
 println(d)
+
+
+
+import groovy.json.JsonSlurperClassic
+import groovy.json.JsonBuilder
+node('master'){
+    properties([
+        buildDiscarder(logRotator(daysToKeepStr: '3', numToKeepStr: '3')),
+        parameters([
+            string(
+                name: 'bucket_name', 
+                defaultValue: 'hello_weekend',
+                description: 's3 bucket name', 
+                trim: true
+            )
+        ])
+    ])
+    stage('describe Stack'){
+        def credentialsFile = "/var/jenkins_home/credentials"
+        withEnv(["AWS_SHARED_CREDENTIALS_FILE=${credentialsFile}"]){
+            def result = sh(script: "aws cloudformation describe-stacks --stack-name s3-bucket-cf --region ap-northeast-1", returnStdout: true).trim()
+            def parser = new JsonSlurperClassic()
+            def cfStackParams = parser.parseText(result)["Stacks"]["Parameters"][0]
+            
+            def branchValue = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
+            if (branchValue.'ParameterValue' != "${bucket_name}"){
+                branchValue.'ParameterValue' = "${bucket_name}"
+                param_json = new JsonBuilder(cfStackParams).toPrettyString()
+                println(param_json)
+            }
+            else{
+                println ("proceeding code pipeline deploy stage")
+            }
+        }
+    }
+}

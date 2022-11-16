@@ -1,8 +1,0 @@
-#!/usr/bin/env groovy
-@Library('pipeline-library') _
-
-def call(region, rule){
-    awsDescribeEventRule = awsDescribeEventRule(region, rule)
-    println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
-}
-return this

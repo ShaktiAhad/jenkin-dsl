@@ -14,7 +14,7 @@ pipeline = awsCodePipeline.codePipeline
 node('master'){
     cfStackParams = awsDescribeStack(region, cfStack)["Stacks"]["Parameters"][0]
     branchName = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
-    branchValue = "${branchValue.'ParameterValue'}"
+    branchValue = "${branchName.'ParameterValue'}"
 
     stage('prepraration'){
         println "--> prepraration stage"

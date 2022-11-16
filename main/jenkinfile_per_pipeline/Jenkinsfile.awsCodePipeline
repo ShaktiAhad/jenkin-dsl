@@ -27,7 +27,7 @@ node('master'){
         println "--> change event rule status"
         timeout(time: 2, unit: 'MINUTES') {
             change_eventRule_status = input message: "User input required",
-                parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'], description: 'Choose "disable" if you want to disable eventRule status')]
+                parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'])]
         }
         if (change_eventRule_status == "disable"){
             awsDisableEventRule = awsDisableEventRule(region, rule)
@@ -39,18 +39,16 @@ node('master'){
 
     stage('Waiting for Jira tickets to complete'){
         timeout(time: 60, unit: 'MINUTES') {
-            input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION"
+            input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
-            //awsDescribeEventRule = awsDescribeEventRule(region, rule)
-            //println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
+            awsDescribeEventRule = awsDescribeEventRule(region, rule)
+            println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
         }
     }
 
     stage('check release branch on codeCommit'){
         println "--> check release branch on codeCommit stage"
-        awsDescribeEventRule = awsDescribeEventRule(region, rule)
-        println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
         branch_name = awsCodeCommitBranchCheck(region, repo, version)
     }
 

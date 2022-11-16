@@ -32,8 +32,8 @@ node('master'){
         if (change_eventRule_status == "disable"){
             awsDisableEventRule = awsDisableEventRule(region, rule)
             sleep(7)
-            awsDescribeEventRule = awsDescribeEventRule(region, rule)
-            println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
+            awsDescribeEvent = awsDescribeEventRule(region, rule)
+            println ("Rule_name: ${awsDescribeEvent["Name"]}, Status: ${awsDescribeEvent["State"]}")
         }
     }
 

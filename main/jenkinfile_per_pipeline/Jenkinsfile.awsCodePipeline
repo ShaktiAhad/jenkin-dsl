@@ -39,7 +39,7 @@ node('master'){
 
     stage('Waiting for Jira tickets to complete'){
         timeout(time: 60, unit: 'MINUTES') {
-            input message: "proceed for release?"
+            input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION"
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
             awsDescribeEventRule = awsDescribeEventRule(region, rule)

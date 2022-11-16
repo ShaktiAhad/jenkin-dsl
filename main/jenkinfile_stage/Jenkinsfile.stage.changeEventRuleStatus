@@ -1,0 +1,21 @@
+#!/usr/bin/env groovy
+@Library('pipeline-library') _
+
+def getEventStatus(region, rule){
+    def awsGetEventStatus = awsDescribeEventRule(region, rule)
+    println ("Rule_name: ${awsGetEventStatus["Name"]}, Status: ${awsGetEventStatus["State"]}")
+
+}
+def disableEventRule(region, rule){
+    awsDisableEventRule(region, rule)
+    sleep(7)
+    getEventStatus(region, rule)
+}
+
+def enableEventRule(region, rule){
+    awsEnableEventRule(region, rule)
+    sleep(7)
+    getEventStatus(region, rule)
+}
+
+return this

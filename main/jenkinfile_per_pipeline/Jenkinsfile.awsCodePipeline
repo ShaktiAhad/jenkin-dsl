@@ -16,6 +16,7 @@ node('master'){
     cfStackParams = awsDescribeStack(region, cfStack)["Stacks"]["Parameters"][0]
     branchName = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
     branchValue = "${branchName.'ParameterValue'}"
+    changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
 
     stage('prepraration'){
         println "--> prepraration stage"
@@ -29,21 +30,16 @@ node('master'){
             change_eventRule_status = input message: "User input required",
                 parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'])]
         }
+
         if (change_eventRule_status == "disable"){
-            def awsDisableEventRule = awsDisableEventRule(region, rule)
-            sleep(7)
-            def awsGetEventStatus = awsDescribeEventRule(region, rule)
-            println ("Rule_name: ${awsGetEventStatus["Name"]}, Status: ${awsGetEventStatus["State"]}")
+            changeStatus.disableEventRule(region, rule)
         }
     }
 
     stage('Waiting for Jira tickets to complete'){
         timeout(time: 60, unit: 'MINUTES') {
             input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
-            def awsEnableEventRule = awsEnableEventRule(region, rule)
-            sleep(7)
-            def awsGetEventStatus = awsDescribeEventRule(region, rule)
-            println ("Rule_name: ${awsGetEventStatus["Name"]}, Status: ${awsGetEventStatus["State"]}")
+            changeStatus.enableEventRule(region, rule)
         }
     }
 

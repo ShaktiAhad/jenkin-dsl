@@ -14,10 +14,11 @@ conf:
       inputParams:
         string: 
           releaseVersion:
-            defaultValue: 'x.x.x'
+            defaultValue: 'v0.0.1'
             description: 'release version'
 
           bucket:
+            defaultValue: 'hello-weekend-bucket-v0.0.1'
             description: 'put bucket name'
 
     awsEventRule:

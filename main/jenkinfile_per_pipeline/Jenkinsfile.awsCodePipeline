@@ -10,6 +10,7 @@ region = awsCodePipeline.region
 repo = awsCodePipeline.codeCommitRepo
 cfStack = awsCodePipeline.cfStack
 pipeline = awsCodePipeline.codePipeline
+rule = awsCodePipeline.eventRule
 
 node('master'){
     cfStackParams = awsDescribeStack(region, cfStack)["Stacks"]["Parameters"][0]
@@ -21,6 +22,30 @@ node('master'){
         def common = param.common
         checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
+
+    stage('change event rule status'){
+        println "--> change event rule status"
+        timeout(time: 2, unit: 'MINUTES') {
+            change_eventRule_status = input message: "User input required",
+                parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'], description: 'Choose "disable" if you want to disable eventRule status')]
+        }
+        if (change_eventRule_status == "disable"){
+            awsDisableEventRule = awsDisableEventRule(region, rule)
+            sleep(7)
+            awsDescribeEventRule = awsDescribeEventRule(region, rule)
+            println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
+        }
+        else {
+            awsEnableEventRule = awsEnableEventRule(region, rule)
+            sleep(7)
+            awsDescribeEventRule = awsDescribeEventRule(region, rule)
+            println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
+        } 
+    }
+
+    timeout(time: 60, unit: 'MINUTES') {
+            input message: "proceed for release?",
+        }
 
     stage('check release branch on codeCommit'){
         println "--> check release branch on codeCommit stage"

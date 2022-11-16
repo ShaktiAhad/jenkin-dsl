@@ -32,14 +32,16 @@ node('master'){
         }
 
         if (change_eventRule_status == "disable"){
-            changeStatus.disableEventRule(region, rule)
+            awsDisableEventRule(region, rule)
+            changeStatus(region, rule)
         }
     }
 
     stage('Waiting for Jira tickets to complete'){
         timeout(time: 60, unit: 'MINUTES') {
             input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
-            changeStatus.enableEventRule(region, rule)
+            awsEnableEventRule(region, rule)
+            changeStatus(region, rule)
         }
     }
 

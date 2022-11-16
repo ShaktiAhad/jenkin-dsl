@@ -32,8 +32,8 @@ node('master'){
         if (change_eventRule_status == "disable"){
             awsDisableEventRule = awsDisableEventRule(region, rule)
             sleep(7)
-            awsDescribeEvent = awsDescribeEventRule(region, rule)
-            println ("Rule_name: ${awsDescribeEvent["Name"]}, Status: ${awsDescribeEvent["State"]}")
+            def awsGetEventStatus = awsDescribeEventRule(region, rule)
+            println ("Rule_name: ${awsGetEventStatus["Name"]}, Status: ${awsGetEventStatus["State"]}")
         }
     }
 
@@ -42,8 +42,8 @@ node('master'){
             input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
-            ruleStatus = awsDescribeEventRule(region, rule)
-            println ("Rule_name: ${ruleStatus["Name"]}, Status: ${ruleStatus["State"]}")
+            def awsGetEventStatus = awsDescribeEventRule(region, rule)
+            println ("Rule_name: ${awsGetEventStatus["Name"]}, Status: ${awsGetEventStatus["State"]}")
         }
     }
 

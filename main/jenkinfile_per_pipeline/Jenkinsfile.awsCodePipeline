@@ -16,7 +16,6 @@ node('master'){
     cfStackParams = awsDescribeStack(region, cfStack)["Stacks"]["Parameters"][0]
     branchName = cfStackParams.find {it.'ParameterKey' == "BucketPrefix"}
     branchValue = "${branchName.'ParameterValue'}"
-    changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
 
     stage('prepraration'){
         println "--> prepraration stage"
@@ -26,6 +25,7 @@ node('master'){
 
     stage('change event rule status'){
         println "--> change event rule status"
+        changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
         timeout(time: 2, unit: 'MINUTES') {
             change_eventRule_status = input message: "User input required",
                 parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'])]

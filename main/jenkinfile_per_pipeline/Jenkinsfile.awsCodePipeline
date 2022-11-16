@@ -42,8 +42,8 @@ node('master'){
             input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
-            awsDescribeEventRule = awsDescribeEventRulee(region, rule)
-            println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
+            awsDescribeEventRul = awsDescribeEventRule(region, rule)
+            println ("Rule_name: ${awsDescribeEventRul["Name"]}, Status: ${awsDescribeEventRul["State"]}")
         }
     }
 

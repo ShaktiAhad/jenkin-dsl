@@ -35,17 +35,15 @@ node('master'){
             awsDescribeEventRule = awsDescribeEventRule(region, rule)
             println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
         }
-        else {
+    }
+
+    stage('Waiting for Jira tickets to complete'){
+        timeout(time: 60, unit: 'MINUTES') {
+            input message: "proceed for release?"
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
             awsDescribeEventRule = awsDescribeEventRule(region, rule)
             println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
-        } 
-    }
-
-    stage('proceed for release?'){
-        timeout(time: 60, unit: 'MINUTES') {
-            input message: "proceed for release?"
         }
     }
 

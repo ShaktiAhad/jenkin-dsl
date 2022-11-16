@@ -33,7 +33,6 @@ node('master'){
             awsDisableEventRule = awsDisableEventRule(region, rule)
             sleep(7)
             awsDescribeEventRule = awsDescribeEventRule(region, rule)
-            //println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
             println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
         }
     }
@@ -44,7 +43,6 @@ node('master'){
             awsEnableEventRule = awsEnableEventRule(region, rule)
             sleep(7)
             awsDescribeEventRule = awsDescribeEventRule(region, rule)
-            //println ("Rule_name: "+awsDescribeEventRule["Name"]+ ", Status: "+awsDescribeEventRule["State"])
             println ("Rule_name: ${awsDescribeEventRule["Name"]}, Status: ${awsDescribeEventRule["State"]}")
         }
     }

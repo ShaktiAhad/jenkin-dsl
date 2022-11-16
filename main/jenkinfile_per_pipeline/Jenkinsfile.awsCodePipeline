@@ -44,8 +44,8 @@ node('master'){
     }
 
     timeout(time: 60, unit: 'MINUTES') {
-            input message: "proceed for release?",
-        }
+        input message: "proceed for release?"
+    }
 
     stage('check release branch on codeCommit'){
         println "--> check release branch on codeCommit stage"

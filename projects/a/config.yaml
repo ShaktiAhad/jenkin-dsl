@@ -24,7 +24,7 @@ conf:
         choice:
           event_rule_status:
             choices: ['skip', 'disable']
-            description: 'skip if do not need to change the eventRule status'
+            description: 'select 'skip' if do not need to change the eventRule status'
 
     awsEventRule:
       eventRule: 'test'

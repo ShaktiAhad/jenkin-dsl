@@ -23,7 +23,7 @@ node('master'){
         checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
 
-    if(rule != null){
+    if(rule){
         changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
         stage('change event rule status'){
             println "--> change event rule status"

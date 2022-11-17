@@ -20,6 +20,11 @@ conf:
           bucket:
             defaultValue: 'hello-weekend-bucket-v0.0.1'
             description: 'put bucket name'
+        
+        choice:
+          event_rule_status:
+            description: 'Change event rule status'
+            choices: ['enable', 'disable']
 
     awsEventRule:
       eventRule: 'test'

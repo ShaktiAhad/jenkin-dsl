@@ -27,11 +27,11 @@ node('master'){
         println "--> change event rule status"
         changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
         timeout(time: 2, unit: 'MINUTES') {
-            change_eventRule_status = input message: "User input required",
-                parameters: [choice(name: 'Change eventRule status', choices: ['enable', 'disable'])]
+            disable_eventRule = input message: "User input required",
+                parameters: [choice(name: 'Disable eventRule', choices: ['skip', 'disable'])]
         }
 
-        if (change_eventRule_status == "disable"){
+        if (disable_eventRule == "disable"){
             awsDisableEventRule(region, rule)
             changeStatus(region, rule)
         }
@@ -39,7 +39,10 @@ node('master'){
 
     stage('Waiting for Jira tickets to complete'){
         timeout(time: 60, unit: 'MINUTES') {
-            input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
+            enable_eventRule = input message: "User input required",
+                parameters: [choice(name: 'Enable eventRule', choices: ['skip', 'enable'])]
+        }
+        if(enable_eventRule == "enable"){
             awsEnableEventRule(region, rule)
             changeStatus(region, rule)
         }

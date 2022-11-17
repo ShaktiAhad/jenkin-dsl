@@ -28,15 +28,13 @@ node('master'){
         stage('change event rule status'){
             println "--> change event rule status"
             if (env.event_rule_status == "disable"){
-                timeout(time: 60, unit: 'MINUTES'){
-                    awsDisableEventRule(region, rule)
-                    changeStatus(region, rule)
-                }
+                awsDisableEventRule(region, rule)
+                changeStatus(region, rule)
             }
         }
 
         stage('Waiting for Jira tickets to complete'){
-            timeout(time: 60, unit: 'MINUTES') {
+            timeout(time: 1, unit: 'HOURS') {
                 input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
                 awsEnableEventRule(region, rule)
                 changeStatus(region, rule)

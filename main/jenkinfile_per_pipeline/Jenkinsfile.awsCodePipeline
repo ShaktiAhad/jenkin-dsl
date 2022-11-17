@@ -23,28 +23,24 @@ node('master'){
         checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
 
-    stage('change event rule status'){
-        println "--> change event rule status"
+    if(rule != null){
         changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
-        timeout(time: 2, unit: 'MINUTES') {
-            disable_eventRule = input message: "User input required",
-                parameters: [choice(name: 'Disable eventRule', choices: ['skip', 'disable'])]
+        stage('change event rule status'){
+            println "--> change event rule status"
+            if (env.event_rule_status == "disable"){
+                timeout(time: 60, unit: 'MINUTES'){
+                    awsDisableEventRule(region, rule)
+                    changeStatus(region, rule)
+                }
+            }
         }
 
-        if (disable_eventRule == "disable"){
-            awsDisableEventRule(region, rule)
-            changeStatus(region, rule)
-        }
-    }
-
-    stage('Waiting for Jira tickets to complete'){
-        timeout(time: 60, unit: 'MINUTES') {
-            enable_eventRule = input message: "User input required",
-                parameters: [choice(name: 'Enable eventRule', choices: ['skip', 'enable'])]
-        }
-        if(enable_eventRule == "enable"){
-            awsEnableEventRule(region, rule)
-            changeStatus(region, rule)
+        stage('Waiting for Jira tickets to complete'){
+            timeout(time: 60, unit: 'MINUTES') {
+                input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
+                awsEnableEventRule(region, rule)
+                changeStatus(region, rule)
+            }
         }
     }
 

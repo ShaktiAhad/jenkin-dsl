@@ -24,12 +24,12 @@ node('master'){
     }
 
     if(rule){
-        changeStatus = load ("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.changeEventRuleStatus")
         stage('change event rule status'){
             println "--> change event rule status"
             if (env.event_rule_status == "disable"){
                 awsDisableEventRule(region, rule)
-                changeStatus(region, rule)
+                sleep(5)
+                awsGetEventRuleStatus(region, rule)
             }
         }
 
@@ -37,7 +37,8 @@ node('master'){
             timeout(time: 1, unit: 'HOURS') {
                 input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
                 awsEnableEventRule(region, rule)
-                changeStatus(region, rule)
+                sleep(5)
+                awsGetEventRuleStatus(region, rule)
             }
         }
     }

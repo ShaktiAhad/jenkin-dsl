@@ -34,10 +34,7 @@
 // println new JsonBuilder(cfStackParams).toPrettyString()
 // println(d)
 
-def d = "hello"
-if(g==true){
-    println "hello"
+def d(name="shakti"){
+    println ("hello ${name}")
 }
-else{
-    println "skip"
-}
+d("ahad")

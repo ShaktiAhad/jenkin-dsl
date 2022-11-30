@@ -6,24 +6,18 @@ def call(region, stack, params){
     println (awsUpdateCloudformationStack(region, stack, params))
     attempt = 1
     while(awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] != "UPDATE_COMPLETE"){
-        println ("--> CloudFormation Update is in progress.")
+        println ("-->attempt:${attempt}  CloudFormation Update is in progress.")
         attempt++
         sleep(10)
         if (attempt == 5) {
-            try{
-                timeout(time: 15, unit: 'SECONDS'){
-                    println("## [Bad news] Failed to update ClouFormation.\n")
-                    stack_events = awsDescribeStackEvents(region, stack)
-                    for (object in stack_events){
-                        if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
-                            println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${object["ResourceStatusReason"]}.\n")
-                        }
-                    }
+            println("## [Bad news] Failed to update ClouFormation.\n")
+            stack_events = awsDescribeStackEvents(region, stack)
+            for (object in stack_events){
+                if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
+                    println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${object["ResourceStatusReason"]}.\n")
                 }
-            } catch(Throwable e){
-                println("## [Bad news] Failed to update ClouFormation. Please check the ResourceStatusReason.\n")
-                throw e
             }
+            throw new Exception("## [Bad news] Failed to update ClouFormation. Please check the ResourceStatusReason.\n")
         }
     }
 

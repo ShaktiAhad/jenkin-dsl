@@ -33,8 +33,3 @@
 // updateBranchValue.'ParameterValue' = "accord"
 // println new JsonBuilder(cfStackParams).toPrettyString()
 // println(d)
-
-def d(name="shakti"){
-    println ("hello ${name}")
-}
-d("ahad")

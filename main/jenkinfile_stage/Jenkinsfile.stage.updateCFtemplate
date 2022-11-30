@@ -22,7 +22,7 @@ def call(region, stack, params){
                 }
             } catch(Throwable e){
                 println("## [Bad news] Failed to update ClouFormation. Please check the ResourceStatusReason.\n")
-                println e
+                throw e
             }
         }
     }

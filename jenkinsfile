@@ -1,3 +1,5 @@
+// Create master_seed pipeline and copy-paste following
+ 
 import groovy.json.JsonBuilder
 node('master'){
     properties([

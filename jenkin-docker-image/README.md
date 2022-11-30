@@ -31,7 +31,7 @@ Here I am creating a custom Jenkin docker image which has **Python3, Pip3, Gclou
 - Wait until the build is completed. This will create an image, name: **jenkin** & can be confirmed from docker desktop by clicking **Images** from left panel. 
 
 **Start jenkin container**
-- Execute: `docker run --name jenkin -v ~/jenkin_home:/var/jenkins_home -p $(ipconfig getifaddr en0):8080:8080 <image_id>`
+- Execute: `docker run --name jenkin -v ~/jenkin_home:/var/jenkins_home -p $(ipconfig getifaddr en0):8080:8080 $(docker images  jenkin:latest --format "{{.ID}}")`
 
 - This will start a jenkin docker container and will expose on port 8080 and can be confirmed from docker desktop by clicking **Container/Apps** from left panel. 
 

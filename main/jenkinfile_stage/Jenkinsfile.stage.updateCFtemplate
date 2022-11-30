@@ -11,11 +11,13 @@ def call(region, stack, params){
         sleep(10)
         if (attempt == 5) {
             try{
-                println("## [Bad news] Failed to update ClouFormation.\n")
-                stack_events = awsDescribeStackEvents(region, stack)
-                for (object in stack_events){
-                    if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
-                        println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${+object["ResourceStatusReason"]}.\n")
+                timeout(time: 15, unit: 'SECONDS'){
+                    println("## [Bad news] Failed to update ClouFormation.\n")
+                    stack_events = awsDescribeStackEvents(region, stack)
+                    for (object in stack_events){
+                        if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
+                            println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${+object["ResourceStatusReason"]}.\n")
+                        }
                     }
                 }
             } catch(Throwable e){

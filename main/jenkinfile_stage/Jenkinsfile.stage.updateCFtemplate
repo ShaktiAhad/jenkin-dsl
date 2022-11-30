@@ -16,7 +16,7 @@ def call(region, stack, params){
                     stack_events = awsDescribeStackEvents(region, stack)
                     for (object in stack_events){
                         if (object["Timestamp"] =~ String.format('%tF', java.time.LocalDateTime.now())){
-                            println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${+object["ResourceStatusReason"]}.\n")
+                            println ("timestamp: ${object["Timestamp"]}, ResourceStatus: ${object["ResourceStatus"]}, ResourceStatusReason: ${object["ResourceStatusReason"]}.\n")
                         }
                     }
                 }

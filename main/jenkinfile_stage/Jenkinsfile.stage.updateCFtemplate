@@ -20,7 +20,7 @@ def call(region, stack, params){
                     break
                 }
             }
-            throw new Exception("## [Bad news] Failed to update ClouFormation. Please check the ResourceStatusReason.\n")
+            throw new Exception("## [Bad news] Failed to update CloudFormation. Please check the ResourceStatusReason.\n")
         }
     }
 

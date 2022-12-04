@@ -15,7 +15,7 @@ def call(region, pipeline_name){
     }
     else {
         awsGetPipelineState(region, pipeline_name)
-        throw new Exception ("## [Bad news] Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(reg, pipeline_name)}\n")
+        throw new Exception ("## [Bad news] Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(region, pipeline_name)}\n")
     }
 }
 return this

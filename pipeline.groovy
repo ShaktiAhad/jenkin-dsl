@@ -12,8 +12,9 @@ pipelines.each{key, value ->
             GroovyShell shell = new GroovyShell()
             load_paramfile = shell.parse(new File("${workspace}/main/lib/${pipeline_name}.groovy"))
             def params = new JsonBuilder(load_paramfile(pipelines)).toString()
-            println (pipeline_name)
-            println (params)
+            println ("\n----------------")
+            println ("${pipeline_name}: ${params}")
+            println ("----------------\n")
             def folder_path = "${key}/${project}"
             def pipline = "${folder_path}/${pipeline_name}"
             pipelineJob("${pipline}"){

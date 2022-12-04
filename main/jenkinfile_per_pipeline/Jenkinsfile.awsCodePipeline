@@ -29,7 +29,7 @@ node('master'){
             if (env.event_rule_status == "disable"){
                 awsDisableEventRule(region, rule)
                 sleep(5)
-                awsGetEventRuleStatus(region, rule)
+                println (awsGetEventRuleStatus(region, rule))
             }
         }
 
@@ -38,7 +38,7 @@ node('master'){
                 input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
                 awsEnableEventRule(region, rule)
                 sleep(5)
-                awsGetEventRuleStatus(region, rule)
+                println (awsGetEventRuleStatus(region, rule))
             }
         }
     }

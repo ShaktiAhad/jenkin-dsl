@@ -27,20 +27,24 @@ node('master'){
         stage('change event rule status'){
             println "--> change event rule status"
             if (env.event_rule_status == "disable"){
+                println "--> Disabling EventRule."
                 awsDisableEventRule(region, rule)
                 sleep(5)
                 println (awsGetEventRuleStatus(region, rule))
+
+                stage('Waiting for Jira tickets to complete'){
+                    println "--> Waiting for Jira tickets to complete"
+                    timeout(time: 1, unit: 'HOURS') {
+                        input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
+                        println "--> Jira tickets are done. Enabling EventRule."
+                        awsEnableEventRule(region, rule)
+                        sleep(5)
+                        println (awsGetEventRuleStatus(region, rule))
+                    }
+                }
             }
         }
 
-        stage('Waiting for Jira tickets to complete'){
-            timeout(time: 1, unit: 'HOURS') {
-                input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
-                awsEnableEventRule(region, rule)
-                sleep(5)
-                println (awsGetEventRuleStatus(region, rule))
-            }
-        }
     }
 
     stage('check release branch on codeCommit'){

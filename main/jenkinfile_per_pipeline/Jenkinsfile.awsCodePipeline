@@ -31,9 +31,9 @@ node('master'){
     if(rule && env.event_rule_status == 'disable'){
         stage('disable event rule status'){
             println("--> disable event rule")
-            awsDisableEventRule(params)
+            awsDisableEventRule(region, rule)
             sleep(5)
-            awsDescribeEventRule(params)
+            awsDescribeEventRule(region, rule)
         }
         stage('Waiting for Jira tickets to complete'){
             timeout(time: 2, unit: 'HOURS') {
@@ -42,9 +42,9 @@ node('master'){
         }
         stage('enable back event rule status'){
             println("--> enable event rule")
-            awsEnableEventRule(params)
+            awsEnableEventRule(region, rule)
             sleep(5)
-            awsDescribeEventRule(params)
+            awsDescribeEventRule(region, rule)
         }
     }
 

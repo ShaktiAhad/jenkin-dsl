@@ -27,10 +27,12 @@ def call(region, stack, branchValue){
                 throw new Exception("## [Bad news] Failed to update CloudFormation. Please check the ResourceStatusReason.\n")
             }
         }
+        if (awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
+            println("## [Good news] CloudFormation is updated successfully.")
+        }
     }
-
-    if (awsDescribeStackEvents(region, stack)[0]["ResourceStatus"] == "UPDATE_COMPLETE"){
-        println("## [Good news] CF is updated successfully.")
+    else{
+        println("## No need to update CloudFormation template.")
     }
 }
 return this

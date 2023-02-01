@@ -2,19 +2,19 @@
 @Library('pipeline-library') _
 
 def call(region, pipeline_name){
-    println (awsExecuteCodePipeline(region, pipeline_name))
+    pieplineId = awsExecuteCodePipeline(region, pipeline_name)["pipelineExecutionId"]
     while(awsPipelineStatus(region, pipeline_name) == "InProgress"){
         println ("--> Deployment is in progress.")
-        awsGetPipelineState(region, pipeline_name)
+        awsGetPipelineState(region, pipeline_name, pieplineId)
         sleep (15)
     }
 
     if (awsPipelineStatus(region, pipeline_name) == "Succeeded"){
         println("## [Good news] Deployment is completed successfully.")
-        awsGetPipelineState(region, pipeline_name)
+        awsGetPipelineState(region, pipeline_name, pieplineId)
     }
     else {
-        awsGetPipelineState(region, pipeline_name)
+        awsGetPipelineState(region, pipeline_name, pieplineId)
         throw new Exception ("## [Bad news] Code Pipeline has been Failed or Stopped or Aborted, Status: ${awsPipelineStatus(region, pipeline_name)}\n")
     }
 }

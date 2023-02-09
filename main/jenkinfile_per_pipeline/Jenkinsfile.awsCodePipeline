@@ -28,25 +28,23 @@ node('master'){
         awsCodeCommitBranchCheck(region, repo, version)
     }
 
-    if(rule){
-        if(env.event_rule_status == 'disable'){
-            stage('disable event rule status'){
-                println("--> disable event rule")
-                awsDisableEventRule(region, rule)
-                sleep(5)
-                awsDescribeEventRule(region, rule)
+    if(rule && env.event_rule_status == 'disable'){
+        stage('disable event rule status'){
+            println("--> disable event rule")
+            awsDisableEventRule(region, rule)
+            sleep(5)
+            awsDescribeEventRule(region, rule)
+        }
+        stage('Waiting for Jira tickets to complete'){
+            timeout(time: 2, unit: 'HOURS') {
+                input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
             }
-            stage('Waiting for Jira tickets to complete'){
-                timeout(time: 2, unit: 'HOURS') {
-                    input message: "DO NOT PROCEED UNTIL YOU GET CONFIRMATION."
-                }
-            }
-            stage('enable back event rule status'){
-                println("--> enable event rule")
-                awsEnableEventRule(region, rule)
-                sleep(5)
-                awsDescribeEventRule(region, rule)
-            }
+        }
+        stage('enable back event rule status'){
+            println("--> enable event rule")
+            awsEnableEventRule(region, rule)
+            sleep(5)
+            awsDescribeEventRule(region, rule)
         }
     }
 

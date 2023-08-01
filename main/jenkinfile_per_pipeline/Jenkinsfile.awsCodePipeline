@@ -23,10 +23,10 @@ node('master'){
         checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
 
-    stage('check release branch on codeCommit'){
-        println "--> check release branch on codeCommit stage"
-        awsCodeCommitBranchCheck(region, repo, version)
-    }
+    // stage('check release branch on codeCommit'){
+    //     println "--> check release branch on codeCommit stage"
+    //     awsCodeCommitBranchCheck(region, repo, version)
+    // }
 
     if(rule && env.event_rule_status == 'disable'){
         stage('disable event rule status'){

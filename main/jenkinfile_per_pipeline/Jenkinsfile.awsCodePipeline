@@ -54,11 +54,11 @@ node('master'){
         updateCFtemplate(region, cfStack, branchValue)
     }
 
-    stage('execute code pipeline & get pipeline status'){
-        println "--> execute code pipeline & get pipeline status stage"
-        def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
-        execCodePipeline(region, pipeline)
-    }    
+    // stage('execute code pipeline & get pipeline status'){
+    //     println "--> execute code pipeline & get pipeline status stage"
+    //     def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
+    //     execCodePipeline(region, pipeline)
+    // }    
 
     stage('workspace cleanup'){
         cleanWs()

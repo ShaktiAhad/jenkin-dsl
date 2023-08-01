@@ -23,10 +23,10 @@ node('master'){
         checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: common.gitUrl, credentialsId: common.cred]], branches: [[name: "refs/heads/${common.branch}"]]], poll: false
     }
 
-    // stage('check release branch on codeCommit'){
-    //     println "--> check release branch on codeCommit stage"
-    //     awsCodeCommitBranchCheck(region, repo, version)
-    // }
+    stage('check release branch on codeCommit'){
+        println "--> check release branch on codeCommit stage"
+        awsCodeCommitBranchCheck(region, repo, version)
+    }
 
     if(rule && env.event_rule_status == 'disable'){
         stage('disable event rule status'){
@@ -54,11 +54,11 @@ node('master'){
         updateCFtemplate(region, cfStack, branchValue)
     }
 
-    // stage('execute code pipeline & get pipeline status'){
-    //     println "--> execute code pipeline & get pipeline status stage"
-    //     def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
-    //     execCodePipeline(region, pipeline)
-    // }    
+    stage('execute code pipeline & get pipeline status'){
+        println "--> execute code pipeline & get pipeline status stage"
+        def execCodePipeline = load("${WORKSPACE}/main/jenkinfile_stage/Jenkinsfile.stage.execCodePipeline")
+        execCodePipeline(region, pipeline)
+    }    
 
     stage('workspace cleanup'){
         cleanWs()
